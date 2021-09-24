@@ -32,6 +32,9 @@ let draw_buildings () =
   draw_building i
   done
 
+let destroy_building k =
+  b_heights.(k) <- b_heights.(k) -1  
+
 let uwu = ()
 
 

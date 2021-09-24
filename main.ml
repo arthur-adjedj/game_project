@@ -18,11 +18,11 @@ let print_tuple (a,b) =
   print_string ")"
 
 
-let background = make_image (Array.make_matrix 800 800 white)
+let background () = make_image (Array.make_matrix 800 800 white)
 
 
 let next_tick () = 
-  draw_image background 0 0;
+  draw_image (background ()) 0 0;
   update_plane ();
   draw_buildings ();
   draw_plane ()
