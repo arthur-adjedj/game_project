@@ -1,0 +1,14 @@
+(** @canonical Dune__exe.Bombs *)
+module Bombs = Dune__exe__Bombs
+
+
+(** @canonical Dune__exe.Buildings *)
+module Buildings = Dune__exe__Buildings
+
+
+(** @canonical Dune__exe.Main *)
+module Main = Dune__exe__Main
+
+
+(** @canonical Dune__exe.Plane *)
+module Plane = Dune__exe__Plane
