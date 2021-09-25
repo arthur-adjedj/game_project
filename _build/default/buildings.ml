@@ -28,9 +28,14 @@ let draw_building k =
 
 
 let draw_buildings () =
-  for i= 0 to n_of_buildings-1 do 
+  for i = 0 to n_of_buildings-1 do 
   draw_building i
   done
+
+let destroy_building k =
+  b_heights.(k) <-  max 0 (b_heights.(k) -1)
+
+let is_game_won () = Array.for_all (fun x -> x = 0) b_heights
 
 let uwu = ()
 
