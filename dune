@@ -1,4 +1,5 @@
 (executable
  (name main)
+ (flags (:standard -w -21))
  (libraries graphics threads)
- )
+)
