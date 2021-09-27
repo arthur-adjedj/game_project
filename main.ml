@@ -4,6 +4,10 @@ open Buildings
 open Bombs
 open Score
 
+let tickrate = 1.
+
+let tick_per_bomb = 30
+
 let game_over = ref false
 
 type int = color
@@ -26,18 +30,20 @@ let print_tuple (a,b) =
 
 let background () = make_image (Array.make_matrix 800 800 white)
 
+let tick = ref 0
 
 let next_tick () = 
+  if !tick mod tick_per_bomb = 0 && button_down () then add_bomb ();
   set_color black;
-  fill_rect 0 0 800 800;
+  (*fill_rect 0 0 800 800;*)
   update_plane ();
   update_bombs ();
   update_buildings ();
   draw_bombs ();
   draw_plane ();
-  draw_buildings ();
   draw_score ();
-  if has_crashed () then game_over := true
+  if has_crashed () then game_over := true;
+  incr tick
 
 
 exception Game_Over
@@ -46,18 +52,22 @@ exception Game_Over
 let () = open_graph "800x800";
   auto_synchronize false;
 
+  (*sets background*)
+  set_color black;
+  fill_rect 0 0 800 800;
+
   (*randomizes the size of the buildings once*)
   init_buildings ();
+  draw_buildings ();
 
   (*uwu*)
   uwu;
 
   while not !game_over do 
     let t = Sys.time () in
-    if button_down () then add_bomb ();
       synchronize ();
       next_tick ();
-    wait (max 0. (300. -. (Sys.time () -. t) ))
+    wait (max 0. ((1./.tickrate) -. (Sys.time () -. t) ))
   done ;
 
   

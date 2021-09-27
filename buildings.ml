@@ -36,7 +36,12 @@ let draw_buildings () =
   done
 
 let destroy_building k =
-  b_heights.(k) <-  max 0 (b_heights.(k) -1)
+  let h = b_heights.(k)-1 in
+  set_color black;
+  fill_rect (k*(block_width+20)) (h*block_height) (block_width+40) (block_height+3);
+  b_heights.(k) <- max 0 (b_heights.(k) - 1)
+
+
 
 let is_game_won () = Array.for_all (fun x -> x = 0) b_heights
 

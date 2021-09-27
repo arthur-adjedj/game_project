@@ -1,8 +1,10 @@
 open Graphics
 open Buildings
-
+open Assets
 
 exception Break
+ 
+
 
 (*whether this func workswith the bot_left origin system of Graphics needs to be verified*)
 (*PRIORITY*)
@@ -15,19 +17,24 @@ let are_in_collision (x1,y1) (w1,h1) (x2,y2) (w2,h2) =
 let iof = int_of_float 
 
 (*plane has to be a function, otherwise it will get initialised before the graph is open, returning an error*)
-let plane () = make_image (Array.make_matrix 30 50 yellow) 
+let plane () = make_image plane_matrix 
     
-let pos = ref (-50,700) 
+let pos = ref (-50.,700.) 
 
-let vel = ref (50.,-10.) 
+let last = ref !pos
+
+let vel = ref (2.,-0.35) 
 
 let draw_plane () = 
-    draw_image (plane ()) (fst !pos) (snd !pos) 
+    set_color black;
+    fill_rect (iof (fst !last)) (iof (snd !last)) 110 37;
+    draw_image (plane ()) (iof (fst !pos)) (iof (snd !pos)) 
 
 
 let update_plane () = 
-    pos := (((fst !pos) + iof (fst  !vel)) mod 800,((snd !pos) + iof (snd !vel)) mod 800);
-    vel := (fst !vel , snd !vel) 
+    last := !pos;
+    pos := (mod_float ((fst !pos) +. (fst  !vel))  800.,mod_float ((snd !pos) +. (snd !vel)) 800.);
+    vel := (fst !vel +. 0.001, snd !vel -. 0.001) 
 
 
 let has_crashed () = 
@@ -35,7 +42,7 @@ let has_crashed () =
     try
         for k = 0 to n_of_buildings - 1 do 
             let h = b_heights.(k) in
-            if  are_in_collision !pos (30,50) (k*(block_width+40),0) (block_width,(h*block_height)) then 
+            if  are_in_collision (iof (fst !pos),iof (snd !pos)) (110,37) (k*(block_width+40),0) (block_width,(h*block_height)) then 
                 (res:=true;
                 raise Break)
         done;
