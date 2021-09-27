@@ -1,9 +1,9 @@
 open Graphics
 open Buildings
 open Plane
+open Score
 
-
-let bomb_bitmap = Array.make_matrix 20 50 red
+let bomb_bitmap = Array.make_matrix 50 20 red
 let drop_speed = 40
 
 let bomb_poss = ref []
@@ -29,7 +29,7 @@ let draw_bombs () = List.iter draw_bomb !bomb_poss
 
 let has_hit i (a,b) = 
   let h = b_heights.(i) in
-  are_in_collision (a,b) (20,50) (i*(block_width+40),0) ((h*block_height),block_width)
+  are_in_collision (a,b) (20,50) (i*(block_width+40),0) (block_width,(h*block_height))
 
 
 let update_buildings () = 
@@ -37,8 +37,8 @@ let update_buildings () =
   
   let rec aux i = function
     |[] -> []
-    |h::r -> if has_hit i h then (destroy_building i; aux i r)
-             else h::(aux i r)
+    |p::r -> if has_hit i p then (destroy_building i;add_score 500; aux i r)
+             else p::(aux i r)
   in 
 
   for i=0 to n_of_buildings - 1 do 
@@ -46,7 +46,3 @@ let update_buildings () =
   done;
 
   bomb_poss := !current
-
-
-
-
