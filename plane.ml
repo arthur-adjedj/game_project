@@ -4,6 +4,8 @@ open Assets
 
 exception Break
  
+let plane_height = Array.length plane_matrix
+let plane_width  = Array.length plane_matrix.(0)
 
 
 (*whether this func workswith the bot_left origin system of Graphics needs to be verified*)
@@ -23,7 +25,7 @@ let pos = ref (-50.,700.)
 
 let last = ref !pos
 
-let vel = ref (2.,-0.35) 
+let vel = ref (2.,-0.25) 
 
 let draw_plane () = 
     set_color black;
@@ -42,7 +44,7 @@ let has_crashed () =
     try
         for k = 0 to n_of_buildings - 1 do 
             let h = b_heights.(k) in
-            if  are_in_collision (iof (fst !pos),iof (snd !pos)) (110,37) (k*(block_width+40),0) (block_width,(h*block_height)) then 
+            if  are_in_collision (iof (fst !pos),iof (snd !pos)) (plane_width,plane_height) (k*(block_width+40),0) (block_width,(h*block_height)) then 
                 (res:=true;
                 raise Break)
         done;

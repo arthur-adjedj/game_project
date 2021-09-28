@@ -9,12 +9,8 @@ import sys
 import numpy as np
 from PIL import Image
 
-bruh = "./plane.png"
+bruh = "./rumbles.png"
 
-
-
-
-a = np.array(Image.open(bruh))
 
 
 def convert(arr):
@@ -26,9 +22,6 @@ def convert(arr):
     return res
 
 
-b = convert(a)
-
-
 def python_to_ocaml_arr(arr):
     a = np.array2string(arr,separator=";",prefix="[|",suffix="|]",edgeitems=1000)
     a = a.replace(" ","")
@@ -36,4 +29,4 @@ def python_to_ocaml_arr(arr):
     a = a.replace("]","|]")
     return a
 
-print(c := python_to_ocaml_arr(b))
+print(c := python_to_ocaml_arr(convert(np.array(Image.open(bruh)))))

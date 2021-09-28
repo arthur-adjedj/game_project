@@ -1,12 +1,12 @@
 open Graphics
 open Plane
 open Buildings
-open Bombs
+open Missiles
 open Score
 
-let tickrate = 1.
+let tickrate = 60.
 
-let tick_per_bomb = 30
+let tick_per_missile = 10
 
 let game_over = ref false
 
@@ -17,8 +17,8 @@ let (mod) x y =
     (x mod y) + y
 else x mod y
 
-let wait milli =
-  ignore (Unix.select [] [] [] (milli/.1000.))
+let wait s =
+  ignore (Unix.select [] [] [] (s))
 
 let print_tuple (a,b) = 
   print_string "(";
@@ -33,13 +33,13 @@ let background () = make_image (Array.make_matrix 800 800 white)
 let tick = ref 0
 
 let next_tick () = 
-  if !tick mod tick_per_bomb = 0 && button_down () then add_bomb ();
+  if !tick mod tick_per_missile = 0 && button_down () then add_missile ();
   set_color black;
   (*fill_rect 0 0 800 800;*)
   update_plane ();
-  update_bombs ();
+  update_missiles ();
   update_buildings ();
-  draw_bombs ();
+  draw_missiles ();
   draw_plane ();
   draw_score ();
   if has_crashed () then game_over := true;
@@ -80,6 +80,9 @@ let () = open_graph "800x800";
   draw_string "GAME OVER";
   synchronize ();
 
-  while true do
-    plot 0 0
-  done
+ while true do 
+  plot 0 0
+ done
+
+
+

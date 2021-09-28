@@ -1,3 +1,3 @@
 -make a bitmap <-> color array array interface
--make plane/bomb/building sprites
+-make plane/missile/building sprites
 -implement them in the game
