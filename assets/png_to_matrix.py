@@ -9,7 +9,7 @@ import sys
 import numpy as np
 from PIL import Image
 
-bruh = ["./plane_up.png"]
+bruh = ["./star_0.png","./star_1.png"]
 
 
 def convert(arr):
@@ -32,4 +32,4 @@ def f(i):
     return python_to_ocaml_arr(convert(np.array(Image.open(bruh[i]))))
     
 
-print(c := f(0))
+print(c := "[|" + f(0) + ";" + f(1) + "|]")
