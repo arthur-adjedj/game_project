@@ -1,3 +1,2 @@
--automate la bitmap <-> color array array interface
--make building sprites
--implement procedural buildings
+-faire fonction de collision boost-missile
+-faire go_up plane

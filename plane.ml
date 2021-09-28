@@ -7,6 +7,7 @@ exception Break
 let plane_height = Array.length plane_matrix
 let plane_width  = Array.length plane_matrix.(0)
 
+let is_up = ref false
 
 (*whether this func workswith the bot_left origin system of Graphics needs to be verified*)
 (*PRIORITY*)
@@ -19,7 +20,7 @@ let are_in_collision (x1,y1) (w1,h1) (x2,y2) (w2,h2) =
 let iof = int_of_float 
 
 (*plane has to be a function, otherwise it will get initialised before the graph is open, returning an error*)
-let plane () = make_image plane_matrix 
+let plane () = make_image (if !is_up then plane_up_matrix else plane_matrix )
     
 let pos = ref (-50.,700.) 
 
@@ -34,6 +35,7 @@ let draw_plane () =
 
 
 let update_plane () = 
+    is_up := false;
     last := !pos;
     pos := (mod_float ((fst !pos) +. (fst  !vel))  800.,mod_float ((snd !pos) +. (snd !vel)) 800.);
     vel := (fst !vel +. 0.001, snd !vel -. 0.001) 

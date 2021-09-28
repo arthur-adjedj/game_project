@@ -1,15 +1,17 @@
 open Graphics
+open Tick_manager
 open Buildings
 open Plane
 open Score
 open Assets
 
+let last_shot = ref 0
 
 let missile_height = Array.length missile_arr    
 let missile_width = Array.length missile_arr.(0)
 
 let missile_bitmap = missile_arr
-let drop_speed = 7
+let drop_speed = 10
 
 let missile_poss = ref []
 
@@ -63,3 +65,6 @@ let update_buildings () =
   done;
 
   missile_poss := !current
+
+let missile_check () = 
+  if (!tick - !last_shot) >= tick_per_missile && button_down () then (add_missile ();last_shot := !tick)
