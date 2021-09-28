@@ -16,6 +16,8 @@ let n_of_buildings = 800 / (block_width + building_shift)
 let rumbles () = make_image rumbles_arr
 
 
+
+
 let random_height () = 
   Random.self_init ();
   Random.int 8

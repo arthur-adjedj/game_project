@@ -5,6 +5,7 @@ open Buildings
 open Missiles
 open Score
 open Boosts
+open Stars
 
 let game_over = ref false
 let game_won = ref false
@@ -40,6 +41,7 @@ let next_tick () =
   update_plane ();
   update_missiles ();
   update_buildings ();
+  draw_stars ();
   draw_missiles ();
   draw_plane ();
   draw_score ();
@@ -63,6 +65,7 @@ let () = open_graph "800x800";
   (*randomizes the size of the buildings once*)
   init_buildings ();
   init_boosts ();
+  init_stars ();
   draw_buildings ();
 
   (*uwu*)
