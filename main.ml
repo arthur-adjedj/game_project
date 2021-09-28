@@ -27,21 +27,15 @@ let print_tuple (a,b) =
   print_int b;
   print_string ")"
 
-
-let background () = make_image (Array.make_matrix 800 800 white)
-
-
 let is_game_won () = game_won :=Array.for_all (fun x -> x = 0) b_heights
 
 let next_tick () = 
   incr tick;
   missile_check ();
   set_color black;
-  (*fill_rect 0 0 800 800;*)
   update_plane ();
   update_missiles ();
   update_buildings ();
-  draw_stars ();
   draw_missiles ();
   draw_plane ();
   draw_score ();
@@ -66,8 +60,9 @@ let () = open_graph "800x800";
   init_buildings ();
   init_boosts ();
   init_stars ();
+  wait 0.1;
+  draw_stars ();
   draw_buildings ();
-
   (*uwu*)
   uwu;
 

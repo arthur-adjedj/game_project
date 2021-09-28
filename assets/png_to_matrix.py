@@ -9,7 +9,7 @@ import sys
 import numpy as np
 from PIL import Image
 
-bruh = ["./star_0.png","./star_1.png"]
+bruh = ["./boost_0.png","./boost_1.png","./boost_2.png"]
 
 
 def convert(arr):
@@ -18,6 +18,8 @@ def convert(arr):
         for j in range(len(arr[0])):
             if arr[i][j][3] != 0:
                 res[i][j] = int(arr[i][j][0]*65536+arr[i][j][1]*256+arr[i][j][2])
+            else:
+                res[i][j] = -1
     return res
 
 
@@ -32,4 +34,4 @@ def f(i):
     return python_to_ocaml_arr(convert(np.array(Image.open(bruh[i]))))
     
 
-print(c := "[|" + f(0) + ";" + f(1) + "|]")
+print(c := "[|" + f(0) + ";" + f(1) + ";" + f(2) + "|]")

@@ -7,10 +7,10 @@ exception Break
 let plane_height = Array.length plane_matrix
 let plane_width  = Array.length plane_matrix.(0)
 
+(*checks if plane should go up from a boost in the next frame*)
 let is_up = ref false
 
-(*whether this func workswith the bot_left origin system of Graphics needs to be verified*)
-(*PRIORITY*)
+(*rectangle collisions*)
 let are_in_collision (x1,y1) (w1,h1) (x2,y2) (w2,h2) = 
     not (x1 > x2 + w2 ||
      x2 > x1 + w1 ||
@@ -19,28 +19,39 @@ let are_in_collision (x1,y1) (w1,h1) (x2,y2) (w2,h2) =
 
 let iof = int_of_float 
 
-(*plane has to be a function, otherwise it will get initialised before the graph is open, returning an error*)
+(*images have to be unit functions, otherwise they will get initialised before the graph is open, returning an error*)
 let plane () = make_image (if !is_up then plane_up_matrix else plane_matrix )
     
+(*spawn position, gets updated every tick*)
 let pos = ref (-50.,700.) 
 
+(*last position, used to erase the plane drawn during the last tick*)
 let last = ref !pos
 
+(*self explanatory*)
 let vel = ref (2.,-0.25) 
 
+
 let draw_plane () = 
-    set_color black;
-    fill_rect (iof (fst !last)) (iof (snd !last)) 110 37;
-    draw_image (plane ()) (iof (fst !pos)) (iof (snd !pos)) 
+    set_color black; 
+    fill_rect (iof (fst !last)) (iof (snd !last)) 110 37; (*erases the last plane*)
+    draw_image (plane ()) (iof (fst !pos)) (iof (snd !pos)) (*draws the new one*)
 
 
+(*updates the position of the plane*)
 let update_plane () = 
-    is_up := false;
-    last := !pos;
-    pos := (mod_float ((fst !pos) +. (fst  !vel))  800.,mod_float ((snd !pos) +. (snd !vel)) 800.);
-    vel := (fst !vel +. 0.001, snd !vel -. 0.001) 
+    last := !pos; 
+    if !is_up then begin (*if boost was taken, go up*)
+        is_up := false;
+        pos := (mod_float ((fst !pos) +. (fst  !vel))  800.,mod_float ((snd !pos) -. (snd !vel)) 800.);
+    end 
+    else begin (*otherwise, go down*)
+        pos := (mod_float ((fst !pos) +. (fst  !vel))  800.,mod_float ((snd !pos) +. (snd !vel)) 800.);
+    end;
+    vel := (fst !vel +. 0.001, snd !vel -. 0.001)  (*updates velocity (optional)*)
 
 
+(*is used to check game over*)
 let has_crashed () = 
     let res = ref false in
     try
