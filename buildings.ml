@@ -2,6 +2,8 @@ open Graphics
 open Assets
 
 
+let b_vars () = Array.map make_image b_arrs
+let n_vars = Array.length b_arrs
 
 let grey = rgb 128 128 128 
 let block_height = 50 
@@ -29,9 +31,11 @@ let init_buildings () =
 
 let draw_building k = 
   let h = b_heights.(k) in
-  let building = make_image 
-    (Array.make_matrix (h*block_height) block_width grey) in 
-  draw_image building (k*(block_width+building_shift)) 0 
+  Random.self_init ();
+  for i = 0 to h-1 do
+    let r = Random.int n_vars in
+    draw_image (b_vars ()).(r) (k*(block_width+building_shift)) (i*block_height)
+  done
 
 
 
@@ -49,7 +53,5 @@ let destroy_building k =
   draw_image (rumbles ()) (k*(block_width+building_shift)) (h*block_height);
   b_heights.(k) <- max 0 h
 
-
-let is_game_won () = Array.for_all (fun x -> x = 0) b_heights
 
 let uwu = ()
