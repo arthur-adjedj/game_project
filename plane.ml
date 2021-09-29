@@ -45,7 +45,7 @@ let update_plane () =
         decr is_up;
         pos := (mod_float ((fst !pos) +. (fst  !vel))  800. ,mod_float ((snd !pos) +. 55.) 800.)
     end else begin  (*otherwise, go down*)
-        pos := (mod_float ((fst !pos) +. (fst  !vel))  800.,mod_float ((snd !pos) +. (snd !vel)) 800.);
+        pos := (-. 100. +. mod_float ((fst !pos) +. (fst  !vel) +. 100.)  900. ,mod_float ((snd !pos) +. (snd !vel)) 800.);
     end;
     vel := (fst !vel +. 0.001, snd !vel -. 0.001)  (*updates velocity (optional)*)
 
