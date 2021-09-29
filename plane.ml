@@ -1,6 +1,8 @@
 open Graphics
 open Buildings
 open Assets
+open Tick_manager
+
 
 exception Break
  
@@ -9,6 +11,8 @@ let plane_width  = Array.length plane_matrix.(0)
 
 (*checks if plane should go up from a boost in the next frame*)
 let is_up = ref 0
+
+let is_up_frames = ref 0
 
 (*rectangle collisions*)
 let are_in_collision (x1,y1) (w1,h1) (x2,y2) (w2,h2) = 
@@ -20,10 +24,12 @@ let are_in_collision (x1,y1) (w1,h1) (x2,y2) (w2,h2) =
 let iof = int_of_float 
 
 (*images have to be unit functions, otherwise they will get initialised before the graph is open, returning an error*)
-let plane () = make_image (if !is_up <> 0 then plane_up_matrix else plane_matrix )
+let plane () = make_image (if !is_up_frames > 0 then(decr is_up_frames; plane_up_matrix )else plane_matrix )
     
+
+let base_pos = (-50.,700.)
 (*spawn position, gets updated every tick*)
-let pos = ref (-50.,700.) 
+let pos = ref base_pos
 
 (*last position, used to erase the plane drawn during the last tick*)
 let last = ref !pos
@@ -43,7 +49,8 @@ let update_plane () =
     last := !pos; 
     if !is_up > 0 then begin  (*if boost was taken, go up*)
         decr is_up;
-        pos := (mod_float ((fst !pos) +. (fst  !vel))  800. ,mod_float ((snd !pos) +. 55.) 800.)
+        is_up_frames := up_frames;
+        pos := (mod_float ((fst !pos) +. (fst  !vel))  800. ,mod_float ((snd !pos) +. 100.) 800.)
     end else begin  (*otherwise, go down*)
         pos := (-. 100. +. mod_float ((fst !pos) +. (fst  !vel) +. 100.)  900. ,mod_float ((snd !pos) +. (snd !vel)) 800.);
     end;
@@ -63,3 +70,7 @@ let has_crashed () =
         !res
     with Break -> !res
 
+
+let reset_plane () = 
+    is_up := 0;
+    pos := base_pos

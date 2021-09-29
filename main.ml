@@ -6,9 +6,12 @@ open Missiles
 open Score
 open Boosts
 open Stars
+open Wind_boost
+
+
+exception Game_Over
 
 let game_over = ref false
-let game_won = ref false
 
 type int = color
 
@@ -27,13 +30,25 @@ let print_tuple (a,b) =
   print_int b;
   print_string ")"
 
-let is_game_won () = game_won :=Array.for_all (fun x -> x = 0) b_heights
+let is_game_won () = Array.for_all (fun x -> x = 0) b_heights
+
+let reset () =
+  set_color black;
+  fill_rect 0 0 800 800;
+  reset_buildings ();
+  reset_missiles ();
+  reset_plane ();
+  reset_boosts ();
+  reset_stars ();
+  wait 1.
 
 let next_tick () = 
+  if is_game_won () then reset ();
   incr tick;
   missile_check ();
   set_color black;
   has_hit_boost ();
+  update_winds ();
   update_plane ();
   update_missiles ();
   update_buildings ();
@@ -41,12 +56,7 @@ let next_tick () =
   draw_plane ();
   draw_score ();
   draw_boosts ();
-  is_game_won ();
   if has_crashed () then game_over := true 
-
-
-exception Game_Over
-
 
 
 let () = open_graph "800x800";
@@ -67,7 +77,7 @@ let () = open_graph "800x800";
   (*uwu*)
   uwu;
 
-  while not (!game_over || !game_won) do 
+  while not !game_over do 
     let t = Sys.time () in
       synchronize ();
       next_tick ();

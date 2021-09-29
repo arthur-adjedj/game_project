@@ -18,9 +18,9 @@ let drop_speed = 10
 
 (*each missiles are handled as a tuple of positions,the first one representing the current pos,
 the second the last (used to erase the old sprite of each missile)*)
-let missile_poss = ref []
+let missiles = ref []
 
-let add_missile () = missile_poss:= ((iof (fst !pos) + 45,iof (snd !pos)-20),(iof (fst !pos),iof (snd !pos)-20))::!missile_poss
+let add_missile () = missiles:= ((iof (fst !pos) + 45,iof (snd !pos)-20),(iof (fst !pos),iof (snd !pos)-20))::!missiles
 
 let update_missiles () = 
   let rec new_pos_list = function
@@ -31,7 +31,7 @@ let update_missiles () =
                       set_color black;
                       fill_rect a 0 missile_width missile_height;
                       new_pos_list r)
-in missile_poss := new_pos_list !missile_poss (*updates the n° and positions of missiles*)
+in missiles := new_pos_list !missiles (*updates the n° and positions of missiles*)
 
 
 
@@ -42,7 +42,7 @@ let draw_missile ((a,b),(c,d)) =
   fill_rect c d missile_width missile_height; (*erases past missile*)
   draw_image missile a b
 
-let draw_missiles () = List.iter draw_missile !missile_poss
+let draw_missiles () = List.iter draw_missile !missiles
 
 (*checks collision between a missile and the building i*)
 let has_hit i ((a,b),_) = 
@@ -54,7 +54,7 @@ let has_hit i ((a,b),_) =
 (*checks collisions of all misiles with all buidings and destroys them accordingly*)
 let update_buildings () = 
   destroy_rumbles (); 
-  let current = ref !missile_poss in
+  let current = ref !missiles in
   let rec aux i = function
     |[] -> []
     |((a,b),(c,d))::r -> if has_hit i ((a,b),(c,d)) then 
@@ -71,7 +71,11 @@ let update_buildings () =
     current := aux i !current
   done;
 
-  missile_poss := !current
+  missiles := !current
 
 let missile_check () = 
   if (!tick - !last_tick_shot) >= tick_per_missile && button_down () then (add_missile ();last_tick_shot := !tick)
+
+
+let reset_missiles () = 
+  missiles := []

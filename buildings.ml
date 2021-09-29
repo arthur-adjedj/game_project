@@ -75,3 +75,8 @@ let destroy_rumbles () =
   
 (*uwu*)
 let uwu = ()
+
+
+let reset_buildings () =
+  init_buildings ();
+  draw_buildings ()

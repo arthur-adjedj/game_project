@@ -3,6 +3,7 @@ open Tick_manager
 open Assets
 open Missiles
 open Plane
+open Wind_boost
 
 let boost_image () = Array.map make_image boost_sprites
 
@@ -26,7 +27,7 @@ let draw_boost state pos =
   draw_image (boost_image ()).(state) (fst pos) (snd pos)
 
 let draw_boosts () = 
-  List.iter (draw_boost ((!tick/tick_per_missile) mod 3)) !boosts
+  List.iter (draw_boost ((!tick/ticks_per_boost_update) mod 3)) !boosts
 
 let orange = rgb 256 256 0
 
@@ -40,7 +41,12 @@ let has_hit_boost () =
         set_color black;
         fill_rect a b (snd boost_dimensions) (snd boost_dimensions);
         incr is_up;
+        add_wind ();
         (aux r1 ml)
       end else h1::(aux r1 ml)
-  in boosts := aux !boosts !missile_poss
+  in boosts := aux !boosts !missiles
     
+
+let reset_boosts () =
+  init_boosts ();
+  draw_boosts ()

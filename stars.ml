@@ -26,4 +26,6 @@ let draw_stars () =
     draw_star i
   done
 
-
+let reset_stars () =
+  init_stars ();
+  draw_stars ()
