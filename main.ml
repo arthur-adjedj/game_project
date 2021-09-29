@@ -8,9 +8,6 @@ open Boosts
 open Stars
 open Wind_boost
 
-
-exception Game_Over
-
 let game_over = ref false
 
 type int = color
