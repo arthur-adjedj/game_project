@@ -1,4 +1,5 @@
 (*WARNING: This file was not made to be readable, it contains the data of all sprites used in the game*)
+(*I wanted to find a way to convert a png/bmp fils to a color matrix easily, *)
 
 let plane_matrix = [|[|0;0;0;0;0;0;7834485;
 7637103;7702896;7702896;7702896;7702896;7702896;7702896;

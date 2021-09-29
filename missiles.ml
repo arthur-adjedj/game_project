@@ -53,7 +53,7 @@ let has_hit i ((a,b),_) =
 
 (*checks collisions of all misiles with all buidings and destroys them accordingly*)
 let update_buildings () = 
-  destroy_rumbles ();
+  destroy_rumbles (); 
   let current = ref !missile_poss in
   let rec aux i = function
     |[] -> []

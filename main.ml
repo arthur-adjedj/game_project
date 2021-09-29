@@ -33,6 +33,7 @@ let next_tick () =
   incr tick;
   missile_check ();
   set_color black;
+  has_hit_boost ();
   update_plane ();
   update_missiles ();
   update_buildings ();
@@ -81,6 +82,9 @@ let () = open_graph "800x800";
     set_text_size 5;
     set_color black;
     draw_string "GAME OVER";
+    moveto 310 380;
+    set_text_size 3;
+    draw_string ("final score : "^ string_of_int !score);
     synchronize ()
   end
   else begin

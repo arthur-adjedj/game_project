@@ -1,8 +1,12 @@
 open Graphics
 open Tick_manager
 open Assets
+open Missiles
+open Plane
 
 let boost_image () = Array.map make_image boost_sprites
+
+let boost_dimensions = (Array.length boost_sprites.(0),Array.length boost_sprites)
 
 let boosts = ref []
 
@@ -25,7 +29,17 @@ let draw_boosts () =
   List.iter (draw_boost ((!tick/tick_per_missile) mod 3)) !boosts
 
 
-
+let has_hit_boost () = 
+  let rec aux bl ml = match bl,ml with
+    |[],_ -> []
+    |l1,[] -> l1
+    |h1::r1,(p,_)::_ -> 
+      if are_in_collision h1 boost_dimensions p (missile_width,missile_height) then begin
+        incr is_up;
+        (aux r1 ml)
+      end else h1::(aux r1 ml)
+  in boosts := aux !boosts !missile_poss
+    
 
 
 
