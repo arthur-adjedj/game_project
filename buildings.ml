@@ -71,5 +71,7 @@ let destroy_rumbles () =
     |(k,t)::r -> if t=0 then (destroy_rumble k; aux r)
                  else (k,t-1)::(aux r)
   in are_in_rumbles := aux !are_in_rumbles 
+
+  
 (*uwu*)
 let uwu = ()

@@ -43,8 +43,3 @@ let has_hit_boost () =
       end else h1::(aux r1 ml)
   in boosts := aux !boosts !missile_poss
     
-
-
-
-
-
