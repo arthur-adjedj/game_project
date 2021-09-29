@@ -1,3 +1,5 @@
+(*time variables are stocked here*)
+
 let tick = ref 0
 
 let tickrate = 60.

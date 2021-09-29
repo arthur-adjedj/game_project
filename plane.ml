@@ -23,6 +23,8 @@ let are_in_collision (x1,y1) (w1,h1) (x2,y2) (w2,h2) =
 
 let iof = int_of_float 
 
+
+(*/!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\*)
 (*images have to be unit functions, otherwise they will get initialised before the graph is open, returning an error*)
 let plane () = make_image (if !is_up_frames > 0 then(decr is_up_frames; plane_up_matrix )else plane_matrix )
     

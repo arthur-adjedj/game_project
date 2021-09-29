@@ -18,15 +18,14 @@ let n_of_buildings = 800 / (block_width + building_shift)
 (*rumbles will be drawn for one frame whenever a building's floor gets destroyed*)
 let rumbles () = make_image rumbles_arr
 
-
+(*n° of buildings having rumbles at the top*)
 let are_in_rumbles = ref []
 
 let random_height () = 
   Random.self_init ();
   Random.int 8
 
-
-
+(*stores the heights of each building*)
 let b_heights = Array.make n_of_buildings 0
 
 (*sets random heights for each building*)
@@ -45,13 +44,14 @@ let draw_building k =
   done
 
 
-(*draws all buildings, should only be called once when the game is initialized, slows the game down **drastically** *)
+(*draws all buildings, should only be called once when the game is initialized, *)
+(*slows the game down **drastically** otherwise*)
 let draw_buildings () =
   for i = 0 to n_of_buildings-1 do 
   draw_building i
   done
 
-(*erases the highest floor of building k*)
+(*erases the highest floor of building k and draws rumbles instead*)
 let destroy_building k =
   let h = b_heights.(k)-1 in
   set_color black;
@@ -60,6 +60,8 @@ let destroy_building k =
   are_in_rumbles := (k,ticks_of_rumble)::!are_in_rumbles;
   b_heights.(k) <- max 0 h
 
+
+(*rumbles appear after a building floor gets destroyed, and disappear after a certain number of ticks*)
 let destroy_rumble k =
   let h = b_heights.(k)-1 in
   set_color black;

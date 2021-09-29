@@ -1,5 +1,6 @@
 open Graphics
 
+(*basic score system*)
 let score = ref 0
 
 let draw_score () =

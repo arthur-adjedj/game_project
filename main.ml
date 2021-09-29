@@ -32,6 +32,9 @@ let print_tuple (a,b) =
 
 let is_game_won () = Array.for_all (fun x -> x = 0) b_heights
 
+
+(*if all buildings are destroyed, the game is reset,
+keeping the old score*)
 let reset () =
   set_color black;
   fill_rect 0 0 800 800;
@@ -42,6 +45,7 @@ let reset () =
   reset_stars ();
   wait 1.
 
+(*updates what needs to be updated on the screen*)
 let next_tick () = 
   if is_game_won () then reset ();
   incr tick;
@@ -58,9 +62,10 @@ let next_tick () =
   draw_boosts ();
   if has_crashed () then game_over := true 
 
-
+  
+(*main function*)
 let () = open_graph "800x800";
-  auto_synchronize false;
+  auto_synchronize false; (*this guarantees that things get entirely drawn before being rendered on the screen*)
 
   (*sets background*)
   set_color black;
@@ -69,11 +74,13 @@ let () = open_graph "800x800";
 
   (*randomizes the size of the buildings once*)
   init_buildings ();
+  (*initiales boosts and stars*)
   init_boosts ();
   init_stars ();
   wait 0.1;
   draw_stars ();
   draw_buildings ();
+
   (*uwu*)
   uwu;
 
@@ -81,10 +88,11 @@ let () = open_graph "800x800";
     let t = Sys.time () in
       synchronize ();
       next_tick ();
-    wait (max 0. ((1./.tickrate) -. (Sys.time () -. t) ))
+      (*/!\ the speed of the game is framerate dependent, so a limit must be kept on how fast it can go*)
+    wait (max 0. ((1./.tickrate) -. (Sys.time () -. t) )) 
   done ;
 
-  
+  (*game over screen*)
   if !game_over then begin
     set_color red;
     fill_rect 0 0 800 800;
@@ -96,22 +104,11 @@ let () = open_graph "800x800";
     set_text_size 3;
     draw_string ("final score : "^ string_of_int !score);
     synchronize ()
-  end
-  else begin
-    set_color green;
-    fill_rect 0 0 800 800;
-    moveto 350 400;
-    set_text_size 5;
-    set_color black;
-    draw_string "GAME WON !";
-    moveto 310 380;
-    set_text_size 3;
-    draw_string ("final score : "^ string_of_int !score);
-    synchronize ()
   end;
 
+  (*this last part ensures the window doesn't close after the game is over*)
  while true do 
-  plot 0 0
+  ()
  done
 
 
