@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
-
-This is a temporary script file.
+Small script to convert png files to color matrices used in OCaml
+/!\\ The plane and missile icons are not mine and are under licensing, I should probably source them or find 
+accessible ones...
 """
 
 import sys
