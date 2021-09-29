@@ -6,7 +6,7 @@ open Plane
 
 let boost_image () = Array.map make_image boost_sprites
 
-let boost_dimensions = (Array.length boost_sprites.(0),Array.length boost_sprites)
+let boost_dimensions = (Array.length boost_sprites.(0).(0),Array.length boost_sprites.(0))
 
 let boosts = ref []
 
@@ -28,6 +28,7 @@ let draw_boost state pos =
 let draw_boosts () = 
   List.iter (draw_boost ((!tick/tick_per_missile) mod 3)) !boosts
 
+let orange = rgb 256 256 0
 
 let has_hit_boost () = 
   let rec aux bl ml = match bl,ml with
@@ -37,7 +38,7 @@ let has_hit_boost () =
       if are_in_collision h1 boost_dimensions p (missile_width,missile_height) then begin
         let (a,b) = h1 in
         set_color black;
-        fill_rect a b (fst boost_dimensions) (snd boost_dimensions);
+        fill_rect a b (snd boost_dimensions) (snd boost_dimensions);
         incr is_up;
         (aux r1 ml)
       end else h1::(aux r1 ml)

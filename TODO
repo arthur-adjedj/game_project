@@ -1,2 +1,2 @@
--fixer le mvt de l'avion (apparait trop à droite à chaque turn)
 -implementer les sprites de saut quand l'avion monte
+-reset la map lorsque tous les buildings ont disparus
