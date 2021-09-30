@@ -52,9 +52,9 @@ let update_plane () =
     if !is_up > 0 then begin  (*if boost was taken, go up*)
         decr is_up;
         is_up_frames := up_frames;
-        pos := (mod_float ((fst !pos) +. (fst  !vel))  800. ,mod_float ((snd !pos) +. 100.) 800.)
+        pos := (mod_float ((fst !pos) +. (fst  !vel))  800. ,(snd !pos) +. 100.)
     end else begin  (*otherwise, go down*)
-        pos := (-. 100. +. mod_float ((fst !pos) +. (fst  !vel) +. 100.)  900. ,mod_float ((snd !pos) +. (snd !vel)) 800.);
+        pos := (-. 100. +. mod_float ((fst !pos) +. (fst  !vel) +. 100.)  900. ,(snd !pos) +. (snd !vel));
     end;
     vel := (fst !vel +. 0.001, snd !vel -. 0.001)  (*updates velocity (optional)*)
 
